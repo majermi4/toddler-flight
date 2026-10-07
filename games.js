@@ -103,25 +103,27 @@ export function launchGame(id, stage, env) {
       on(stage.querySelector('#clear-art'), 'click', () => { strokes = []; pointers.clear(); const r = canvas.getBoundingClientRect(); redraw(ctx, r.width, r.height); env.save('little-sky-drawing', []); });
     },
     pairs() {
-      let count = 2, first = null, locked = false, round = 0;
+      let count = 2, first = null;
       stage.innerHTML = `${tool('<button class="soft-button active" data-pairs="2" aria-pressed="true">2 pairs</button><button class="soft-button" data-pairs="3" aria-pressed="false">3 pairs</button><button class="soft-button" data-pairs="4" aria-pressed="false">4 pairs</button><button class="soft-button" id="new-pairs">New friends</button>')}<div class="pairs-board"></div>`;
       function deal() {
-        round++; first = null; locked = false;
+        first = null;
         const names = shuffled(animalNames).slice(0, count);
         const cards = shuffled([...names, ...names]); const board = stage.querySelector('.pairs-board');
         board.style.setProperty('--pair-columns', count === 3 ? 3 : count === 4 ? 4 : 2);
-        board.innerHTML = cards.map((name, i) => `<button class="pair-card" data-animal="${name}" aria-label="Hidden animal card ${i + 1}" aria-pressed="false"><span class="card-back">${art('star')}</span><span class="card-front">${art(name)}</span></button>`).join('');
+        board.innerHTML = cards.map((name, i) => `<button class="pair-card" data-animal="${name}" aria-label="${name} card ${i + 1}" aria-pressed="false"><span class="card-front">${art(name)}</span></button>`).join('');
         board.querySelectorAll('button').forEach(el => on(el, 'click', () => {
-          if (locked || el.classList.contains('revealed') || el.classList.contains('matched')) return;
-          env.sound.pop(); el.classList.add('revealed'); el.setAttribute('aria-label', `${el.dataset.animal} card`); el.setAttribute('aria-pressed', 'true');
-          if (!first) { first = el; return; }
+          if (el.classList.contains('matched')) return;
+          if (first === el) { el.classList.remove('selected'); el.setAttribute('aria-pressed', 'false'); first = null; hint('Tap two of the same animal.'); return; }
+          env.sound.pop(); el.classList.add('selected'); el.setAttribute('aria-pressed', 'true');
+          if (!first) { first = el; hint(`Find another ${el.dataset.animal}.`); return; }
           const other = first; first = null;
           if (matches(el.dataset.animal, other.dataset.animal)) {
-            [el, other].forEach(card => { card.classList.add('matched'); card.disabled = true; }); celebrate(el);
+            [el, other].forEach(card => { card.classList.remove('selected'); card.classList.add('matched'); card.disabled = true; }); celebrate(el);
+            hint('Two matching friends! Find another pair.');
             if (board.querySelectorAll('.matched').length === cards.length) { hint('All the friends are together! Play again?'); later(() => { if (board.querySelectorAll('.matched').length === cards.length) celebrate(board); }, 400); }
-          } else { locked = true; const currentRound = round; later(() => { if (round !== currentRound) return; [el, other].forEach(card => { card.classList.remove('revealed'); card.setAttribute('aria-label', 'Hidden animal card'); card.setAttribute('aria-pressed', 'false'); }); locked = false; }, 1100); }
+          } else { other.classList.remove('selected'); other.setAttribute('aria-pressed', 'false'); first = el; hint(`Find another ${el.dataset.animal}.`); }
         }));
-        hint('Tap two cards to find matching friends.');
+        hint('Tap two of the same animal.');
       }
       stage.querySelectorAll('[data-pairs]').forEach(el => on(el, 'click', () => { count = Number(el.dataset.pairs); activate(stage.querySelector('.game-tools'), el); deal(); }));
       on(stage.querySelector('#new-pairs'), 'click', deal); deal();

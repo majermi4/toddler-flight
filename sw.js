@@ -1,4 +1,4 @@
-const CACHE = 'little-sky-v2';
+const CACHE = 'little-sky-v3';
 const FILES = ['./', './index.html', './style.css', './app.js', './games.js', './art.js', './audio.js', './manifest.webmanifest', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));

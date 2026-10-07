@@ -32,7 +32,7 @@ Both tablet orientations work; no orientation lock. Painting supports multiple f
 ## Games
 
 1. Finger Painting — crayon, soft brush, rainbow, star stamps, eraser; saved drawing.
-2. Animal Pairs — 2, 3, or 4 shuffled pairs; forgiving reveal time and replay.
+2. Animal Pairs — 2, 3, or 4 shuffled pairs, all face-up from the start. Tap matching animals; every animal stays visible, including after a mismatch or a successful match.
 3. Animal Sounds — nine illustrated animals, animated calls, and gentle synthesized sound imitations. These are playful synthesized effects, **not recordings of real animals**. Rabbit sniffing and fish bubbles are illustrative.
 4. Move the Animals — freely draggable friends in a sky/meadow/pond scene; tapping moves them to a suggested habitat.
 5. Bubble Pop — drifting, replenishing bubbles and animal surprises.

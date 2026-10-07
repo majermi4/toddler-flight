@@ -4,7 +4,7 @@ import { launchGame } from './games.js';
 
 export const games = [
   { id: 'paint', title: 'Finger Painting', description: 'A little colour, a lot of imagination.', category: 'Create', color: 'lavender', hint: 'Choose a colour and make your mark.' },
-  { id: 'pairs', title: 'Animal Pairs', description: 'Two little friends. One happy match.', category: 'Discover', color: 'peach', hint: 'Tap two cards to find matching friends.' },
+  { id: 'pairs', title: 'Animal Pairs', description: 'Two little friends. One happy match.', category: 'Discover', color: 'peach', hint: 'Tap two of the same animal.' },
   { id: 'sounds', title: 'Animal Sounds', description: 'Who says moo? Come and find out.', category: 'Discover', color: 'sage', hint: 'Tap a friend to hear their voice.' },
   { id: 'animals', title: 'Move the Animals', description: 'Little friends, big adventures.', category: 'Move', color: 'blue', hint: 'Move the friends around their little world.' },
   { id: 'bubbles', title: 'Bubble Pop', description: 'Pop, pop… a lovely little surprise.', category: 'Move', color: 'pink', hint: 'Tap the bubbles. What’s hiding inside?' },

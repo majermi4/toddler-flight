@@ -35,3 +35,12 @@ Stopped the local HTTP preview server completely, then reloaded the app from its
 ## Automated checks
 
 `npm run check`: syntax checks plus five passing Node tests for card shuffling, semantic matching, animal artwork, install icons, and complete offline asset coverage.
+
+## Open-faced matching update
+
+- All animals start visible in 2-, 3-, and 4-pair modes, with no card backs.
+- Selecting different animals leaves every card visible and allows an immediate next tap.
+- Selecting a matching pair marks both cards green without removing their pictures; completing all pairs keeps every animal visible.
+- Tapping the selected animal again clears its selection.
+- New friends resets the board with visible shuffled cards.
+- Verified the updated game at tablet landscape size; browser reported no JavaScript errors. Incremented the service-worker cache to v3 for installed app updates.
