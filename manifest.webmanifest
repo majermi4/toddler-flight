@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Little Sky — Toddler Flight Playroom",
+  "short_name": "Little Sky",
+  "description": "Fifteen gentle games for little travellers. Play offline after loading once.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f6ef",
+  "theme_color": "#f7f6ef",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

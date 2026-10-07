@@ -1,0 +1,11 @@
+{
+  "name": "little-sky",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check app.js && node --check games.js && node --check art.js && node --check audio.js && node --check sw.js && node --test tests/*.test.mjs"
+  }
+}
