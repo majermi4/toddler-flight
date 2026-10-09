@@ -44,3 +44,11 @@ Stopped the local HTTP preview server completely, then reloaded the app from its
 - Tapping the selected animal again clears its selection.
 - New friends resets the board with visible shuffled cards.
 - Verified the updated game at tablet landscape size; browser reported no JavaScript errors. Incremented the service-worker cache to v3 for installed app updates.
+
+## Musical scales update — 9 October 2026
+
+- Fireflies now use C-major pentatonic pitches (C, D, E, G, A) from C5 through C7. All 11 rendered note/frequency mappings were checked; touching a firefly triggered its glow and sparkle. Each firefly retains the same pitch as it moves.
+- Little Music now includes every semitone from C4 through C6: 25 keys, including 10 black keys. Clicked every key and activated a sharp key with Enter.
+- At 1024 × 768 CSS pixels the keyboard is continuous; at 768 × 1024 it uses two octave rows. Portrait black keys were at least 62 CSS pixels wide, landscape at least 44; no persistent page overflow in either orientation.
+- Browser reported no JavaScript errors during these checks. Physical iPad audio/touch verification remains recommended.
+- `npm run check`: seven passing tests, including equal-tempered chromatic intervals and pentatonic pitch membership. Existing offline asset-coverage tests still pass; no additional network assets were introduced. Incremented the service-worker cache to v4 for installed app updates.

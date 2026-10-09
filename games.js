@@ -1,4 +1,5 @@
 import { art, animalNames } from './art.js';
+import { pianoNotes, fireflyNotes } from './audio.js';
 
 const palette = ['#db8d7e', '#e7b96b', '#9eb995', '#8fb7c4', '#b5a0cb', '#775f57'];
 const pick = array => array[Math.floor(Math.random() * array.length)];
@@ -186,8 +187,18 @@ export function launchGame(id, stage, env) {
       on(stage.querySelector('#clear-stickers'), 'click', () => world.querySelectorAll('.placed-sticker').forEach(el => el.remove()));
     },
     music() {
-      const freqs = [261.63, 293.66, 329.63, 349.23, 392, 440, 493.88, 523.25];
-      stage.innerHTML = `<div class="music-world"><div class="music-friends">${['cat', 'rabbit', 'bird'].map(name => `<div class="dancing-friend">${art(name)}</div>`).join('')}</div><div class="music-notes" aria-hidden="true">♪ &nbsp; ♫ &nbsp; ♪</div><div class="piano">${freqs.map((freq, i) => `<button class="piano-key" data-frequency="${freq}" style="--key-color:${[...palette, '#dcadbd', '#98bbaa'][i]}" aria-label="Play ${['C', 'D', 'E', 'F', 'G', 'A', 'B', 'high C'][i]}"><span>${['do', 're', 'mi', 'fa', 'sol', 'la', 'si', 'do'][i]}</span><i></i></button>`).join('')}</div><p class="music-help">${env.settings.sound ? 'A little tune, just for you.' : 'Tap the speaker above to hear your little tune.'}</p></div>`;
+      const keyColors = [...palette, '#dcadbd'];
+      const whiteNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+      function octave(notes, label) {
+        const whiteCount = notes.filter(note => !note.black).length;
+        let whiteIndex = 0;
+        return `<div class="piano-octave" role="group" aria-label="${label}" style="--white-count:${whiteCount};flex:${whiteCount}">${notes.map(note => {
+          const position = whiteIndex / whiteCount * 100;
+          if (!note.black) whiteIndex++;
+          return `<button class="piano-key ${note.black ? 'black-key' : 'white-key'}" data-note="${note.name}" data-midi="${note.midi}" data-frequency="${note.frequency}" style="--key-position:${position}%;--key-color:${keyColors[whiteNames.indexOf(note.pitch)] || '#46514c'}" aria-label="Play ${note.name}"><span>${note.pitch.replace('#', '♯')}</span>${note.black ? '' : '<i></i>'}</button>`;
+        }).join('')}</div>`;
+      }
+      stage.innerHTML = `<div class="music-world"><div class="music-friends">${['cat', 'rabbit', 'bird'].map(name => `<div class="dancing-friend">${art(name)}</div>`).join('')}</div><div class="music-notes" aria-hidden="true">♪ &nbsp; ♫ &nbsp; ♪</div><div class="piano chromatic-piano" role="group" aria-label="Two-octave chromatic piano, C4 to C6">${octave(pianoNotes.slice(0, 12), 'Lower octave')}${octave(pianoNotes.slice(12), 'Higher octave')}</div><p class="music-help">${env.settings.sound ? 'A little tune, just for you.' : 'Tap the speaker above to hear your little tune.'}</p></div>`;
       stage.querySelectorAll('.piano-key').forEach(el => {
         const play = () => { env.sound.tone(Number(el.dataset.frequency), .65); el.classList.add('pressed'); later(() => el.classList.remove('pressed'), 220); const friend = pick([...stage.querySelectorAll('.dancing-friend')]); friend.classList.remove('dance'); void friend.offsetWidth; friend.classList.add('dance'); later(() => friend.classList.remove('dance'), 500); const r = el.getBoundingClientRect(); const s = stage.getBoundingClientRect(); sparkle(r.left - s.left + r.width / 2, r.top - s.top, '♪'); };
         on(el, 'pointerdown', e => { e.preventDefault(); play(); }); on(el, 'click', e => { if (e.detail === 0) play(); });
@@ -196,9 +207,9 @@ export function launchGame(id, stage, env) {
     fireflies() {
       stage.innerHTML = '<div class="night-world"><span class="moon">☾</span><div class="night-hill"></div><div class="night-hill second"></div><p class="night-caption">hello, little lights</p></div>';
       const world = stage.querySelector('.night-world');
-      for (let i = 0; i < 11; i++) {
-        const el = document.createElement('button'); el.className = 'firefly'; el.setAttribute('aria-label', 'Touch glowing firefly'); el.style.left = `${8 + Math.random() * 77}%`; el.style.top = `${14 + Math.random() * 61}%`; el.style.animationDelay = `${-Math.random() * 8}s`; el.style.setProperty('--drift', `${20 + Math.random() * 30}px`); world.append(el);
-        on(el, 'click', () => { if (el.classList.contains('glowing')) return; el.classList.add('glowing'); env.sound.tone(800 + Math.random() * 400, .7); const r = el.getBoundingClientRect(); const s = stage.getBoundingClientRect(); sparkle(r.left - s.left + r.width / 2, r.top - s.top, '✧'); later(() => { el.classList.remove('glowing'); el.style.left = `${8 + Math.random() * 77}%`; el.style.top = `${14 + Math.random() * 61}%`; }, 1100); });
+      for (const note of fireflyNotes) {
+        const el = document.createElement('button'); el.className = 'firefly'; el.setAttribute('aria-label', 'Touch glowing firefly'); el.dataset.note = note.name; el.dataset.midi = note.midi; el.dataset.frequency = note.frequency; el.style.left = `${8 + Math.random() * 77}%`; el.style.top = `${14 + Math.random() * 61}%`; el.style.animationDelay = `${-Math.random() * 8}s`; el.style.setProperty('--drift', `${20 + Math.random() * 30}px`); world.append(el);
+        on(el, 'click', () => { if (el.classList.contains('glowing')) return; el.classList.add('glowing'); env.sound.tone(note.frequency, .7); const r = el.getBoundingClientRect(); const s = stage.getBoundingClientRect(); sparkle(r.left - s.left + r.width / 2, r.top - s.top, '✧'); later(() => { el.classList.remove('glowing'); el.style.left = `${8 + Math.random() * 77}%`; el.style.top = `${14 + Math.random() * 61}%`; }, 1100); });
       }
     },
     wash() {

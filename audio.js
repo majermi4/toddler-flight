@@ -1,3 +1,15 @@
+export function noteFrequency(midi) { return 440 * 2 ** ((midi - 69) / 12); }
+
+const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+function note(midi) {
+  const pitch = noteNames[midi % 12];
+  return { midi, pitch, name: `${pitch}${Math.floor(midi / 12) - 1}`, frequency: noteFrequency(midi), black: pitch.includes('#') };
+}
+// Two complete chromatic octaves, including the closing C6.
+export const pianoNotes = Array.from({ length: 25 }, (_, i) => note(60 + i));
+// C-major pentatonic: C D E G A, repeated across two bright, gentle octaves.
+export const fireflyNotes = [72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96].map(note);
+
 export class Sound {
   constructor(settings) { this.settings = settings; this.ctx = null; this.active = new Set(); }
   unlock() {

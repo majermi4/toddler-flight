@@ -43,8 +43,8 @@ Both tablet orientations work; no orientation lock. Painting supports multiple f
 10. Feed a Friend — carrot/rabbit, banana/monkey, apple/cow matching.
 11. Funny Faces — change eyes, nose, mouth, and hat; move decorations.
 12. Sticker Stories — reusable stickers in meadow, ocean, and space scenes.
-13. Little Music — eight simultaneous touchable keys and dancing animals.
-14. Follow the Fireflies — gentle night scene with drifting, touchable lights.
+13. Little Music — two chromatic octaves (C4–C6), with 15 white keys and 10 black keys, simultaneous touch support, and dancing animals. The keyboard uses one continuous row in landscape and two roomy rows in portrait.
+14. Follow the Fireflies — gentle night scene with drifting, touchable lights. Each firefly has a fixed C-major pentatonic note (C, D, E, G, A), across C5–C7.
 15. Splash & Shine — rub actual mud away from a car, dog, or cow; completion measured from remaining mud.
 
 ## Checks and assets
